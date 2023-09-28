@@ -43,7 +43,7 @@ jobs:
       id: build-image
       uses: redhat-actions/buildah-build@v2
       with:
-        image: quay.io/podman-desktop-demo/podify-demo-frontend
+        image: podify-demo-frontend
         tags: v1 ${{ github.sha }}
         containerfiles: |
           ./primary-podify-demo/front/Dockerfile
