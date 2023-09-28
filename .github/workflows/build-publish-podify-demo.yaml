@@ -23,7 +23,7 @@ on:
     branches:
       - main
     paths:
-      - 'primary-podify-demo/front/**'
+      - 'primary-podify-demo/frontend/**'
   workflow_dispatch:
 
 jobs:
@@ -41,5 +41,5 @@ jobs:
         tags: v1 ${{ github.sha }}
         containerfiles: |
           ./primary-podify-demo/fron/Dockerfile
-        context: ./primary-podify-demo/front
+        context: ./primary-podify-demo/frontend
         archs: amd64, arm64
