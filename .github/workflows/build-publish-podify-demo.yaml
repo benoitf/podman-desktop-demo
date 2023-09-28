@@ -39,7 +39,8 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y qemu-user-static
 
-    - name: Buildah Action
+    - name: Build Frontend Image
+      id: build-image
       uses: redhat-actions/buildah-build@v2
       with:
         image: quay.io/podman-desktop-demo/podify-demo-frontend
@@ -48,3 +49,26 @@ jobs:
           ./primary-podify-demo/front/Dockerfile
         context: ./primary-podify-demo/front
         archs: amd64, arm64
+
+    - name: Echo Outputs
+      run: |
+        echo "Image: ${{ steps.build-image.outputs.image }}"
+        echo "Tags: ${{ steps.build-image.outputs.tags }}"
+        echo "Tagged Image: ${{ steps.build-image.outputs.image-with-tag }}"        
+
+    - name: Log in to Red Hat Registry
+      uses: redhat-actions/podman-login@v1
+      with:
+        registry: quay.io
+        username: ${{ secrets.QUAY_USERNAME }}
+        password: ${{ secrets.QUAY_PASSWORD }}
+
+    - name: Push To quay.io
+      id: push-to-quay
+      uses: redhat-actions/push-to-registry@v2
+      with:
+        image: ${{ steps.build-image.outputs.image }}
+        tags: ${{ steps.build-image.outputs.tags }}
+        registry: quay.io/podman-desktop-demo
+
+
