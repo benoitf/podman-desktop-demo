@@ -40,6 +40,6 @@ jobs:
         image: quay.io/podman-desktop-demo/podify-demo-frontend
         tags: v1 ${{ github.sha }}
         containerfiles: |
-          ./primary-podify-demo/fron/Dockerfile
+          ./primary-podify-demo/frontend/Dockerfile
         context: ./primary-podify-demo/frontend
         archs: amd64, arm64
