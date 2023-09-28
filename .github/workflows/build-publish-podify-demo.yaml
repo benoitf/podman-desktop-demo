@@ -19,9 +19,12 @@
 name: Build and publish the frontend of podify demo
 
 on:
-  pull_request:
+  push:
+    branches:
+      - main
     paths:
       - 'primary-podify-demo/front/**'
+  workflow_dispatch:
 
 jobs:
   build:
