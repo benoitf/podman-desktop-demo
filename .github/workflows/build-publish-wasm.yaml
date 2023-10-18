@@ -61,6 +61,11 @@ jobs:
           username: ${{ secrets.QUAY_USERNAME }}
           password: ${{ secrets.QUAY_PASSWORD }}
 
+      - name: list images
+        run: |
+          podman images
+          echo "the tags are ${{ steps.build-image.outputs.tags }}"
+
       - name: Push To quay.io
         id: push-to-quay
         uses: redhat-actions/push-to-registry@v2
