@@ -44,7 +44,7 @@ jobs:
           image: wasm-rust-hello-world
           tags: latest ${{ github.sha }}
           containerfiles: |
-            ./wasm/rust-hello-world/Dockerfile
+            ./wasm/rust-hello-world/Containerfile
           context: ./wasm/rust-hello-world
           platforms: wasi/wasm
 
