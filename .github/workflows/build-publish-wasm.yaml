@@ -22,6 +22,7 @@ on:
   push:
     paths:
       - "wasm/**"
+      - ".github/workflows/build-publish-wasm.yaml"
   workflow_dispatch:
 
 jobs:
