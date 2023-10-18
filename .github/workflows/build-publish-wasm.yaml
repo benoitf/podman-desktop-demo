@@ -40,20 +40,11 @@ jobs:
 
       - name: Build Rust Hello World Wasm Image
         id: build-image
-        uses: redhat-actions/buildah-build@v2
-        with:
-          image: wasm-rust-hello-world
-          tags: latest ${{ github.sha }}
-          containerfiles: |
-            ./wasm/rust-hello-world/Containerfile
-          context: ./wasm/rust-hello-world
-          platforms: wasi/wasm
-
-      - name: Echo Outputs
         run: |
-          echo "Image: ${{ steps.build-image.outputs.image }}"
-          echo "Tags: ${{ steps.build-image.outputs.tags }}"
-          echo "Tagged Image: ${{ steps.build-image.outputs.image-with-tag }}"
+          SHORT_SHA1=$(echo ${GITHUB_SHA} | cut -c1-7)
+          podman build --platform wasi/wasm -t wasm-rust-hello-world -f ./wasm/rust-hello-world/Containerfile ./wasm/rust-hello-world
+          podman tag wasm-rust-hello-world wasm-rust-hello-world:${SHORT_SHA1}
+          echo "{tags}=latest ${SHORT_SHA1}" >> $GITHUB_OUTPUT
 
       - name: Log in to Red Hat Registry
         uses: redhat-actions/podman-login@v1
@@ -66,6 +57,6 @@ jobs:
         id: push-to-quay
         uses: redhat-actions/push-to-registry@v2
         with:
-          image: ${{ steps.build-image.outputs.image }}
+          image: wasm-rust-hello-world
           tags: ${{ steps.build-image.outputs.tags }}
           registry: quay.io/podman-desktop-demo
