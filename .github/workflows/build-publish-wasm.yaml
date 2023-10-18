@@ -52,7 +52,7 @@ jobs:
           SHORT_SHA1=$(echo ${GITHUB_SHA} | cut -c1-7)
           podman build --platform wasi/wasm -t wasm-rust-hello-world -f ./wasm/rust-hello-world/Containerfile ./wasm/rust-hello-world
           podman tag wasm-rust-hello-world wasm-rust-hello-world:${SHORT_SHA1}
-          echo "{tags}=latest ${SHORT_SHA1}" >> $GITHUB_OUTPUT
+          echo "tags=latest ${SHORT_SHA1}" >> $GITHUB_OUTPUT
 
       - name: Log in to Red Hat Registry
         uses: redhat-actions/podman-login@v1
